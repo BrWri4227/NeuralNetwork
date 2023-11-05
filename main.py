@@ -1,6 +1,7 @@
 import numpy as np
 import csv
 import random
+import matplotlib.pyplot as plt
 
 print("Importing Data...") 
 with open('mnist_train.csv', 'r') as file1: #READ IN FILE
@@ -35,7 +36,19 @@ testSet = allData[56000:] #20
 testLabels = allLabels[56000:] #20
 weights = [] #init weights
 bias = [] # init bias
+testAccs = [] #init test accs
+validationAccs = [] #init validation accs
+
+
+
 learnRate = 0.01 #learning rate!
+inputSize = 784 #init network params 
+outputSize = 10
+hiddenLayerCount = 3 #hidden layer count, change for more or less
+hiddenLayerSize = 100
+epochs = 3#epoch count
+
+
 print("Finished importing Data...")
 
 
@@ -90,15 +103,17 @@ def backProp(y, predictions): #back prop
         error = np.dot(delta, weights[i].T) #update error
         
 def train(trainSet,trainLabels, epochs): #training
+    
     for epoch in range(epochs): #epoch counter
         for i in range(len(trainSet)): #for each training example
             predictions = forwardProp(trainSet[i]) #forward prop
             backProp(trainLabels[i], predictions) #bacprop the result
         ValidationAcc = evaluate(validationSet, validationLabels) #each epoch evaluate the validation set
         testAcc = evaluate(testSet, testLabels) #each epoch evaluate the test set
-        print("Epoch: ", epoch, "Validation Accuracy: {:.2f}%".format(ValidationAcc*100), "Test Accuracy: {:.2f}%".format(testAcc * 100) )
-
-
+        print("Epoch: ", epoch + 1, "Validation Accuracy: {:.2f}%".format(ValidationAcc*100), "Test Accuracy: {:.2f}%".format(testAcc * 100) )
+        validationAccs.append(ValidationAcc) #add validation acc to list
+        testAccs.append(testAcc)
+    
 def test(testSet, testLabels): #test
     correct = 0 #init correct
     for i in range(len(testSet)): #for each test example
@@ -119,13 +134,19 @@ def evaluate(validationSet, validationLabels): #SAME THING BUT DIFFERENT SET, ID
 
 
 
-inputSize = 784 #init network params 
-outputSize = 10 
-hiddenLayerCount = 1 #hiden layer count, change for more or less
-hiddenLayerSize = 200
+
 print("Initializing network...")
 weights, bias = initializeNetwork(inputSize, outputSize, hiddenLayerCount, hiddenLayerSize) #init network
-epochs = 10#epoch count
 print("Training network...")
 train(trainSet, trainLabels, epochs) #train network
 test(testSet, testLabels)#test network
+epochRanges = list(range(1, epochs+1)) #create epoch range list
+plt.plot(epochRanges,testAccs,'ro-' ,label='Test Accuracy', ) #plot test acc
+plt.plot(epochRanges,testAccs,'ro-' ,label='Test Accuracy', ) #plot test acc
+plt.plot(epochRanges,validationAccs,'bo-', label='Validation Accuracy') #plot validation acc
+plt.ylabel('Accuracy') #label plot
+plt.xlabel('Epoch')
+plt.legend()
+plt.title('Accuracy vs Epoch') #title plot
+plt.show() #show plot
+plt.savefig('Accuracy vs Epoch.png') #save plot

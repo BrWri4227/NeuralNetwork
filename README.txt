@@ -1,10 +1,6 @@
 
 Brycen Wright
 Date: April 13th, 2023
-Course: CIS 3700
-Professor: K. Moylan
-Assignment: Assignment 4
-Due Date: April 14th, 2023
 
 To run this program:
 
@@ -14,11 +10,16 @@ Simply Extract all of the .py files to the same directory
 To run the neural net:
     py main.py
 
-By default, it has 784 input nodes, 1 hidden layer containing 100 nodes.
+By default, it has 784 input nodes, 10 output nodes, 1 hidden layer containing 100 nodes, 0.01 learn rate with 10 epochs.
 These can be changed by modifying the following variables:
+    inputSize
+    outputSize
     hiddenLayerCount
     hiddenLayerSize
-Adjust them to any positive integer values you please.
+    learnRate
+    epochs
+
+Adjust them to any positive integer values you please. (Warning: Changing these values may result in LONG LONG LONG training times.)
 
 
 Analysis:
