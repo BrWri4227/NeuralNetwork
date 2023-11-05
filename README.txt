@@ -1,10 +1,6 @@
 
 Brycen Wright
 Date: April 13th, 2023
-Course: CIS 3700
-Professor: K. Moylan
-Assignment: Assignment 4
-Due Date: April 14th, 2023
 
 To run this program:
 Download main.py, add your data file in CSV format to the same directory as the main. Go into main.py and adjust the input_size variable to the proper value (784 for MNIST) and then run by typing:
